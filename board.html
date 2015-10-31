@@ -1,0 +1,106 @@
+<script type='text/javascript'>
+(function() {
+  'use strict';
+
+  var map = {
+    mqtt: 'device',
+    serial: 'path',
+    bluetooth: 'address'
+  };
+
+  function updateButtonStatus() {
+    var tran = $('#node-config-input-transport').val(),
+      arg0 = tran ? $('#node-config-input-' + map[tran]).val() : null;
+    if (!(tran && arg0)) {
+      $('#node-config-dialog-ok').button('disable');
+    } else {
+      $('#node-config-dialog-ok').button('enable');
+    }
+  }
+
+  RED.nodes.registerType('board', {
+    category: 'config',
+    defaults: {
+      transport: {
+        value: '',
+        required: true
+      },
+      device: {
+        value: ''
+      },
+      path: {
+        value: ''
+      },
+      address: {
+        value: ''
+      }
+    },
+    exportable: false,
+    label: function() {
+      var tran = this.transport,
+        arg0 = tran ? this[map[tran]] : '';
+      return (tran && arg0) ? '[' + tran + '] ' + arg0 : '';
+    },
+    oneditprepare: function() {
+      $('#node-config-input-transport').on('change', function() {
+        switch (this.value) {
+          case 'mqtt':
+            $('.row-mqtt').show();
+            $('.row-serial').hide();
+            $('.row-bluetooth').hide();
+            break;
+
+          case 'serial':
+            $('.row-mqtt').hide();
+            $('.row-serial').show();
+            $('.row-bluetooth').hide();
+            break;
+
+          case 'bluetooth':
+            $('.row-mqtt').hide();
+            $('.row-serial').hide();
+            $('.row-bluetooth').show();
+            break;
+
+          default:
+            $('.row-mqtt').hide();
+            $('.row-serial').hide();
+            $('.row-bluetooth').hide();
+            break;
+        }
+        updateButtonStatus();
+      });
+
+      $('#node-config-input-device, #node-config-input-path, #node-config-input-address').on('keyup', function() {
+        updateButtonStatus();
+      });
+
+      setTimeout(function() {
+        updateButtonStatus();
+      });
+    }
+  });
+}());
+</script>
+<script type='text/x-red' data-template-name='board'>
+  <div class='form-row'>
+    <label for='node-config-input-transport'>Transport</label>
+    <select type='text' id='node-config-input-transport'>
+      <option value='mqtt'>mqtt</option>
+      <option value='serial'>serial</option>
+      <option value='bluetooth'>bluetooth</option>
+    </select>
+  </div>
+  <div class='form-row row-mqtt'>
+    <label for='node-config-input-deivce'>Device ID</label>
+    <input type='text' id='node-config-input-device' placeholder='Device ID'>
+  </div>
+  <div class='form-row row-serial'>
+    <label for='node-config-input-path'>Path</label>
+    <input type='text' id='node-config-input-path' placeholder='Path'>
+  </div>
+  <div class='form-row row-bluetooth'>
+    <label for='node-config-input-address'>Address</label>
+    <input type='text' id='node-config-input-address' placeholder='Address'>
+  </div>
+</script>

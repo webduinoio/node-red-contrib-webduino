@@ -1,0 +1,55 @@
+<script type='text/javascript'>
+(function() {
+  'use strict';
+
+  RED.nodes.registerType('dht', {
+    category: 'Webduino',
+    color: '#c6dbef',
+    inputs: 1,
+    outputs: 1,
+    defaults: {
+      board: {
+        type: 'board',
+        required: true
+      },
+      pin: {
+        value: '10',
+        required: true
+      },
+      action: {
+        value: 'read',
+        required: true
+      }
+    },
+    label: function() {
+      return 'dht.' + this.action;
+    }
+  });
+}());
+</script>
+<script type="text/x-red" data-template-name="dht">
+  <div class="form-row">
+    <label for="node-input-board">Board</label>
+    <input type="text" id="node-input-board">
+  </div>
+  <div class="form-row">
+    <label for="node-input-pin">Pin</label>
+    <select type="text" id="node-input-pin">
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-action">Action</label>
+    <select type="text" id="node-input-action">
+      <option value="read">read</option>
+      <option value="stopRead">stopRead</option>
+    </select>
+  </div>
+</script>

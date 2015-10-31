@@ -1,0 +1,23 @@
+{
+  "name": "node-red-contrib-webduino",
+  "version": "0.0.1",
+  "description": "Node-RED nodes for Webduino",
+  "repository": "https://github.com/webduinoio/node-red-contrib-webduino.git",
+  "homepage": "http://webduino.io",
+  "keywords": [
+    "arduino",
+    "webduino",
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "board": "board.js",
+      "led": "led.js",
+      "dht": "dht.js"
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "webduino-blockly": "0.x"
+  }
+}
