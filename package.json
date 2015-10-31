@@ -13,7 +13,9 @@
     "nodes": {
       "board": "board.js",
       "led": "led.js",
-      "dht": "dht.js"
+      "dht": "dht.js",
+      "photocell": "photocell.js",
+      "servo": "servo.js"
     }
   },
   "license": "MIT",

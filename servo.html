@@ -2,32 +2,30 @@
 (function() {
   'use strict';
 
-  RED.nodes.registerType('led', {
+  RED.nodes.registerType('servo', {
     category: 'Webduino',
     color: '#c6dbef',
     inputs: 1,
-    outputs: 1,
     defaults: {
       board: {
         type: 'board',
         required: true
       },
       pin: {
-        value: '10',
+        value: '8',
         required: true
       },
-      action: {
-        value: 'on',
-        required: true
+      init: {
+        value: '90'
       }
     },
     label: function() {
-      return 'led ' + this.action;
+      return 'servo angle';
     }
   });
 }());
 </script>
-<script type="text/x-red" data-template-name="led">
+<script type="text/x-red" data-template-name="servo">
   <div class="form-row">
     <label for="node-input-board">Board</label>
     <input type="text" id="node-input-board">
@@ -50,11 +48,10 @@
     </select>
   </div>
   <div class="form-row">
-    <label for="node-input-action">Action</label>
-    <select type="text" id="node-input-action">
-      <option value="on">on</option>
-      <option value="off">off</option>
-      <option value="blink">blink</option>
-    </select>
+    <label for="node-input-init">Init Angle</label>
+    <form>
+      <input id="node-input-init" type="range" name="rangeInput" min="0" max="180" value="90" oninput="this.form.textInput.value=this.value" style="width:50%" />
+      <input type="number" name="textInput" min="0" max="180" value="90" oninput="this.form.rangeInput.value=this.value" style="width:10%" />
+    </form>
   </div>
 </script>

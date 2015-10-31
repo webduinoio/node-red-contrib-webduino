@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  RED.nodes.registerType('led', {
+  RED.nodes.registerType('photocell', {
     category: 'Webduino',
     color: '#c6dbef',
     inputs: 1,
@@ -13,7 +13,7 @@
         required: true
       },
       pin: {
-        value: '10',
+        value: '5',
         required: true
       },
       action: {
@@ -22,12 +22,12 @@
       }
     },
     label: function() {
-      return 'led ' + this.action;
+      return 'photocell ' + this.action;
     }
   });
 }());
 </script>
-<script type="text/x-red" data-template-name="led">
+<script type="text/x-red" data-template-name="photocell">
   <div class="form-row">
     <label for="node-input-board">Board</label>
     <input type="text" id="node-input-board">
@@ -35,18 +35,12 @@
   <div class="form-row">
     <label for="node-input-pin">Pin</label>
     <select type="text" id="node-input-pin">
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
-      <option value="13">13</option>
+      <option value="0">A0</option>
+      <option value="1">A1</option>
+      <option value="2">A2</option>
+      <option value="3">A3</option>
+      <option value="4">A4</option>
+      <option value="5">A5</option>
     </select>
   </div>
   <div class="form-row">
@@ -54,7 +48,6 @@
     <select type="text" id="node-input-action">
       <option value="on">on</option>
       <option value="off">off</option>
-      <option value="blink">blink</option>
     </select>
   </div>
 </script>

@@ -19,8 +19,10 @@ module.exports = function (RED) {
     node.path = n.path;
     node.address = n.address;
 
-    node.opts = {};
-    node.opts.transport = node.transport;
+    node.opts = {
+      transport: node.transport,
+      multi: true
+    };
     node.opts[map[node.transport]] = node[map[node.transport]];
 
     node.board = (n.transport === 'mqtt' ? new webduino.WebArduino(node.opts) : new webduino.Arduino(node.opts));
