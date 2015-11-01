@@ -10,29 +10,48 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, n);
 
     node.pin = n.pin;
-    node.action = n.action;
+    node.autoStart = n.autoStart;
+    node.samplingInterval = parseInt(n.samplingInterval);
     board = RED.nodes.getNode(n.board).board;
 
     board.on('ready', function () {
       photocell = getPhotocell(board, parseInt(node.pin));
       node.status({
-        fill: "green",
-        shape: "dot",
-        text: "connected"
+        fill: 'green',
+        shape: 'dot',
+        text: 'connected'
+      });
+      if (node.samplingInterval && !isNaN(node.samplingInterval)) {
+        board.samplingInterval = node.samplingInterval;
+      }
+      if (node.autoStart) {
+        photocell.on(function (evt) {
+          node.send({
+            payload: evt
+          });
+        });
+      }
+    });
+
+    board.on('error', function () {
+      node.status({
+        fill: 'yellow',
+        shape: 'ring',
+        text: 'error'
       });
     });
 
     board.on('close', function () {
       node.status({
-        fill: "red",
-        shape: "ring",
-        text: "disconnected"
+        fill: 'red',
+        shape: 'ring',
+        text: 'disconnected'
       });
     });
 
     node.on('input', function (msg) {
       if (photocell) {
-        photocell[node.action].apply(photocell, [function (evt) {
+        photocell[msg.payload].apply(photocell, [function (evt) {
           node.send({
             payload: evt
           });
@@ -47,5 +66,5 @@ module.exports = function (RED) {
     });
   }
 
-  RED.nodes.registerType("photocell", Photocell);
+  RED.nodes.registerType('photocell', Photocell);
 };

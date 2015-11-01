@@ -16,13 +16,15 @@
         value: '5',
         required: true
       },
-      action: {
-        value: 'on',
-        required: true
+      autoStart: {
+        value: ''
+      },
+      samplingInterval: {
+        value: '100'
       }
     },
     label: function() {
-      return 'photocell ' + this.action;
+      return 'photocell';
     }
   });
 }());
@@ -44,10 +46,23 @@
     </select>
   </div>
   <div class="form-row">
-    <label for="node-input-action">Action</label>
-    <select type="text" id="node-input-action">
-      <option value="on">on</option>
-      <option value="off">off</option>
+    <label for="node-input-autoStart">Auto Start</label>
+    <select type="text" id="node-input-autoStart">
+      <option value="True">True</option>
+      <option value="">False</option>
     </select>
   </div>
+  <div class="form-row">
+    <label for="node-input-samplingInterval">Sampling Interval</label>
+    <input type="text" id="node-input-samplingInterval" style="width:50px">
+  </div>
+</script>
+<script type="text/x-red" data-help-name="photocell">
+  <p>Sending message to trigger photocell.</p>
+  <p>msg.payload
+    <ul>
+      <li><b>on</b> - turn on</li>
+      <li><b>of</b> - turn off</li>
+    </ul>
+  </p>
 </script>
