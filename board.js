@@ -1,7 +1,7 @@
 module.exports = function (RED) {
   'use strict';
 
-  var webduino = require('webduino-js');
+  require('webduino-blockly');
 
   var map = {
     mqtt: 'device',
