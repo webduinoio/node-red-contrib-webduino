@@ -15,7 +15,20 @@ module.exports = function (RED) {
 
     board.on('ready', function () {
       servo = getServo(board, parseInt(node.pin));
+      node.status({
+        fill: "green",
+        shape: "dot",
+        text: "connected"
+      });
       servo.angle = parseInt(node.init);
+    });
+
+    board.on('close', function () {
+      node.status({
+        fill: "red",
+        shape: "ring",
+        text: "disconnected"
+      });
     });
 
     node.on('input', function (msg) {

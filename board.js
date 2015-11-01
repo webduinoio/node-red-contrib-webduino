@@ -28,7 +28,11 @@ module.exports = function (RED) {
     node.board = (n.transport === 'mqtt' ? new webduino.WebArduino(node.opts) : new webduino.Arduino(node.opts));
 
     node.on('close', function () {
-      node.board && node.board.close();
+      if (node.board) {
+        setTimeout(function () {
+          node.board.close();
+        }, 2000);
+      }
     });
   }
 

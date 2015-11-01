@@ -15,6 +15,19 @@ module.exports = function (RED) {
 
     board.on('ready', function () {
       dht = getDht(board, parseInt(node.pin));
+      node.status({
+        fill: "green",
+        shape: "dot",
+        text: "connected"
+      });
+    });
+
+    board.on('close', function () {
+      node.status({
+        fill: "red",
+        shape: "ring",
+        text: "disconnected"
+      });
     });
 
     node.on('input', function (msg) {
