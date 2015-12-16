@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-webduino",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Node-RED nodes for Webduino",
   "repository": "https://github.com/webduinoio/node-red-contrib-webduino.git",
   "homepage": "http://webduino.io",
@@ -20,6 +20,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "webduino-blockly": "0.x"
+    "webduino-js": "0.x"
   }
 }
