@@ -19,12 +19,13 @@ module.exports = function (RED) {
     node.device = n.device;
     node.path = n.path;
     node.address = n.address;
-    node.mounted = [];
+    node.nodes = [];
     node.onInits = [];
 
     node.mount = function (node, initFunc) {
-      this.mounted.push(node);
+      this.nodes.push(node);
       this.onInits.push(initFunc);
+      setDisconnected(this);
     };
 
     node.opts = {
@@ -41,28 +42,32 @@ module.exports = function (RED) {
     });
 
     node.board.on(webduino.BoardEvent.READY, function (board) {
-      setStatus(node.mounted, {
-        fill: 'green',
-        shape: 'dot',
-        text: 'connected'
-      });
+      setConnected(node);
       doInit(node.onInits, board);
     });
 
     node.board.on(webduino.BoardEvent.ERROR, function () {
-      setStatus(node.mounted, {
-        fill: 'red',
-        shape: 'ring',
-        text: 'error'
-      });
+      setDisconnected(node);
     });
 
     node.board.on(webduino.BoardEvent.DISCONNECT, function () {
-      setStatus(node.mounted, {
-        fill: 'yellow',
-        shape: 'ring',
-        text: 'disconnect'
-      });
+      setDisconnected(node);
+    });
+  }
+
+  function setConnected(boardNode) {
+    setStatus(boardNode.nodes, {
+      fill: 'green',
+      shape: 'dot',
+      text: 'connected'
+    });
+  }
+
+  function setDisconnected(boardNode) {
+    setStatus(boardNode.nodes, {
+      fill: 'yellow',
+      shape: 'ring',
+      text: 'disconnected'
     });
   }
 
