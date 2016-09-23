@@ -33,26 +33,61 @@ module.exports = function (RED) {
     };
     node.opts[map[node.transport]] = node[map[node.transport]];
 
-    node.board = (n.transport === 'mqtt' ? new webduino.WebArduino(node.opts) : new webduino.Arduino(node.opts));
+    boardReady(node, true, function () {
+      setConnected(node);
+      doInit(node.onInits, node.board);
+    });
 
     node.on('close', function () {
       if (node.board) {
         node.board.disconnect();
       }
     });
+  }
 
-    node.board.on(webduino.BoardEvent.READY, function (board) {
-      setConnected(node);
-      doInit(node.onInits, board);
+  function boardReady(node, autoReconnect, callback) {
+    var callback = (typeof autoReconnect === 'function' ? autoReconnect : callback),
+      board = createBoard(node.opts),
+      terminate = function () {
+        node.board = null;
+        delete node.board;
+
+        if (autoReconnect === true) {
+          setTimeout(function () {
+            boardReady(node, autoReconnect, callback);
+          }, 5000);
+        }
+      };
+
+    node.board = board;
+
+    board.once(webduino.BoardEvent.ERROR, function (err) {
+      if (board.isConnected) {
+        board.once(webduino.BoardEvent.DISCONNECT, terminate);
+        board.disconnect();
+      } else {
+        terminate();
+      }
     });
 
-    node.board.on(webduino.BoardEvent.ERROR, function () {
+    board.once(webduino.BoardEvent.READY, callback);
+
+    board.on(webduino.BoardEvent.ERROR, function () {
       setDisconnected(node);
     });
 
-    node.board.on(webduino.BoardEvent.DISCONNECT, function () {
+    board.on(webduino.BoardEvent.DISCONNECT, function () {
       setDisconnected(node);
     });
+  }
+
+  function createBoard(opts) {
+    if (opts.transport === 'mqtt') {
+      opts.multi = true;
+      return new webduino.WebArduino(opts);
+    } else {
+      return new webduino.Arduino(opts);
+    }
   }
 
   function setConnected(boardNode) {

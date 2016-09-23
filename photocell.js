@@ -1,4 +1,5 @@
-var webduino = require('webduino-js');
+var webduino = require('webduino-js'),
+  utils = require('./utils');
 
 module.exports = function (RED) {
   'use strict';
@@ -31,36 +32,18 @@ module.exports = function (RED) {
     });
 
     node.on('input', function (msg) {
-      var payload = getPayload(msg.payload);
-
-      if (photocell && payload) {
-        photocell[payload.method].apply(photocell, [function (evt) {
-          if (evt) {
-            node.send({
-              payload: evt
-            });
-          }
-        }]);
-      }
+      utils.invoke(photocell, msg, function (evt) {
+        node.send({
+          payload: evt
+        });
+      });
     });
 
     node.on('close', function () {
-      if (photocell) {
+      if (photocell && photocell.state === 'on') {
         photocell.off();
       }
     });
-  }
-
-  function getPayload(payloadString) {
-    try {
-      return JSON.parse(payloadString);
-    } catch (e) {
-      var list = payloadString.split(',');
-      return {
-        method: list[0],
-        params: list.slice(1)
-      };
-    }
   }
 
   RED.nodes.registerType('photocell', Photocell);

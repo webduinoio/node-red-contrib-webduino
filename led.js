@@ -1,4 +1,5 @@
-var webduino = require('webduino-js');
+var webduino = require('webduino-js'),
+  utils = require('./utils');
 
 module.exports = function (RED) {
   'use strict';
@@ -17,32 +18,12 @@ module.exports = function (RED) {
     });
 
     node.on('input', function (msg) {
-      var payload = getPayload(msg.payload);
-
-      payload.params = payload.params.map(function (val) {
-        return parseInt(val)
+      utils.invokeNumeric(led, msg, function () {
+        node.send({
+          payload: led._pin.value
+        });
       });
-
-      if (led && payload) {
-        led[payload.method].apply(led, payload.params.concat(function () {
-          node.send({
-            payload: led._pin.value
-          });
-        }));
-      }
     });
-  }
-
-  function getPayload(payloadString) {
-    try {
-      return JSON.parse(payloadString);
-    } catch (e) {
-      var list = payloadString.split(',');
-      return {
-        method: list[0],
-        params: list.slice(1)
-      };
-    }
   }
 
   RED.nodes.registerType("led", Led);

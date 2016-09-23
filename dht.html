@@ -15,6 +15,9 @@
       pin: {
         value: '10',
         required: true
+      },
+      autostartInterval: {
+        value: ''
       }
     },
     icon: 'icon.png',
@@ -46,4 +49,17 @@
       <option value="13">13</option>
     </select>
   </div>
+  <div class="form-row">
+    <label for="node-input-autostartInterval">Auto-Start Interval</label>
+    <input type="text" id="node-input-autostartInterval" style="width:50px"> seconds (0 to disable)
+  </div>
+</script>
+<script type="text/x-red" data-help-name="dht">
+  <p>Send messages to control a dht sensor.</p>
+  <p>msg.payload = <b>method<i>[, parameter list...]</i></b>
+    <ul>
+      <li><b>read,5000</b> - Start reading at a 5-secs interval</li>
+      <li><b>stopRead</b> - Stop reading</li>
+    </ul>
+  </p>
 </script>
