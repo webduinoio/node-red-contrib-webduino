@@ -1,0 +1,101 @@
+<script type='text/javascript'>
+(function() {
+  'use strict';
+
+  RED.nodes.registerType('irraw', {
+    category: 'Webduino',
+    color: '#c6dbef',
+    inputs: 1,
+    outputs: 1,
+    defaults: {
+      board: {
+        type: 'board',
+        required: true
+      },
+      sendPin: {
+        value: '12',
+        required: true
+      },
+      recvPin: {
+        value: '14',
+        required: true
+      },
+      autostartRecv: {
+        value: ''
+      },
+    },
+    icon: 'icon.png',
+    label: function() {
+      return 'irraw (' + this.sendPin + ', ' + this.recvPin + ')';
+    }
+  });
+}());
+</script>
+<script type="text/x-red" data-template-name="irraw">
+  <div class="form-row">
+    <label for="node-input-board">Board</label>
+    <input type="text" id="node-input-board">
+  </div>
+  <div class="form-row">
+    <label for="node-input-pin">Send Pin</label>
+    <select type="text" id="node-input-sendPin">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-pin">Recv Pin</label>
+    <select type="text" id="node-input-recvPin">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-autostartRecv">Auto-Start Recv</label>
+    <select type="text" id="node-input-autostartRecv">
+      <option value="True">True</option>
+      <option value="">False</option>
+    </select>
+  </div>
+</script>
+<script type="text/x-red" data-help-name="irraw">
+  <p>Send messages to control a IR sensor.</p>
+  <p>msg.payload = <b>method<i>[, parameter list...]</i></b>
+    <ul>
+      <li><b>send,data</b> - Send 'data' over IR</li>
+      <li><b>recv</b> - Receive data over IR</li>
+    </ul>
+  </p>
+</script>
