@@ -4,10 +4,14 @@
 
 ## Installation
 
-In your .node-red directory:
+In your `.node-red` directory:
 
 ```Shell
 $ npm install node-red-contrib-webduino
 ```
 
-## [License](LICENSE)
+## License
+
+This project is released under the MIT license.
+
+Please read [LICENSE](LICENSE) for more information.
