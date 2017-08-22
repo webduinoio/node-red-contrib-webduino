@@ -7,7 +7,8 @@ module.exports = function (RED) {
   var map = {
     mqtt: 'device',
     serial: 'path',
-    bluetooth: 'address'
+    bluetooth: 'address',
+    websocket: 'url'
   };
 
   function Board(n) {
@@ -19,6 +20,7 @@ module.exports = function (RED) {
     node.device = n.device;
     node.path = n.path;
     node.address = n.address;
+    node.url = n.url;
     node.nodes = [];
     node.onInits = [];
 
@@ -29,8 +31,10 @@ module.exports = function (RED) {
     };
 
     node.opts = {
-      transport: node.transport
+      transport: node.transport,
+      multi: true
     };
+    n.board && (node.opts.board = n.board);
     node.opts[map[node.transport]] = node[map[node.transport]];
 
     boardReady(node, true, function () {
@@ -82,12 +86,15 @@ module.exports = function (RED) {
   }
 
   function createBoard(opts) {
-    if (opts.transport === 'mqtt') {
-      opts.multi = true;
-      return new webduino.WebArduino(opts);
-    } else {
-      return new webduino.Arduino(opts);
+    if (opts.board) {
+      return new webduino.board[opts.board](opts);
     }
+
+    if (opts.transport === 'mqtt') {
+      return new webduino.WebArduino(opts);
+    }
+
+    return new webduino.Arduino(opts);
   }
 
   function setConnected(boardNode) {
