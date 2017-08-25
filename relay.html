@@ -1,0 +1,65 @@
+<script type='text/javascript'>
+(function () {
+  'use strict';
+
+  RED.nodes.registerType('relay', {
+    category: 'Webduino',
+    color: '#c6dbef',
+    inputs: 1,
+    outputs: 1,
+    defaults: {
+      board: {
+        type: 'board',
+        required: true
+      },
+      pin: {
+        value: '10',
+        required: true
+      }
+    },
+    icon: 'icon.png',
+    label: function () {
+      return 'relay (' + this.pin + ')';
+    }
+  });
+}());
+</script>
+<script type="text/x-red" data-template-name="relay">
+  <div class="form-row">
+    <label for="node-input-board">Board</label>
+    <input type="text" id="node-input-board">
+  </div>
+  <div class="form-row">
+    <label for="node-input-pin">Pin</label>
+    <select type="text" id="node-input-pin">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+    </select>
+  </div>
+</script>
+<script type="text/x-red" data-help-name="relay">
+  <p>Send messages to control a Relay.</p>
+  <p>msg.payload = <b>method<i>[, parameter list...]</i></b>
+    <ul>
+      <li><b>on</b> - Turn the Relay on</li>
+      <li><b>off</b> - Turn the Relay off</li>
+      <li><b>toggle</b> - Toggle the Relay</li>
+    </ul>
+  </p>
+</script>
