@@ -37,7 +37,7 @@ module.exports = function (RED) {
     n.board && (node.opts.board = n.board);
     node.opts[map[node.transport]] = node[map[node.transport]];
 
-    boardReady(node, true, function () {
+    boardReady(node, function () {
       setConnected(node);
       doInit(node.onInits, node.board);
     });
